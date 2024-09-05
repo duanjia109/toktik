@@ -477,7 +477,7 @@ func (c CommentServiceImpl) CountComment(ctx context.Context, request *comment.C
 }
 
 // addComment
-// 添加评论，在gpt打分后插入到到数据库中的comment表中，然后把这条评论信息封装发送到消息队列中
+// 添加评论，在gpt打分后插入到到数据库中的comment表中，然后把这条评论信息封装发送到消息队列中供推荐系统插入
 //
 //	@Description:
 //	@param ctx
@@ -683,6 +683,7 @@ func rateComment(logger *logrus.Entry, span trace.Span, commentContent string, c
 	}).Debugf("Add comment rate successfully.")
 }
 
+// 输出合法评论数目
 func count(ctx context.Context, videoId uint32) (count int64, err error) {
 	ctx, span := tracing.Tracer.Start(ctx, "CountComment")
 	defer span.End()
